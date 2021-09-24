@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon --ignore 'light.db.json' -x babel-node src/server.js",
+    "dev": "nodemon --ignore  -x babel-node src/server.js",
     "build": "rm -rf dist && babel src -d dist"
   },
   "dependencies": {
@@ -28,5 +28,9 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.6",
     "nodemon": "^2.0.12"
-  }
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "heroku-run-build-script": true
 }
