@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentikasi</title>
+    <style>
+      #app {
+        max-width: fit-content;
+        max-height: fit-content;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <p id="loading">Loading...</p>
+      <img src="" alt="QR Code" id="qrcode" />
+      <!-- <h3>Logs:</h3>
+      <ul class="logs"></ul> -->
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(document).ready(function () {
+        var socket = io();
+        $("#loading").show();
+        $("#qrcode").hide();
+
+        // socket.on("log", function (msg) {
+        //   $(".logs").append($("<li>").text(msg));
+        // });
+
+        socket.on("qrcode", function (src) {
+          $("#qrcode").attr("src", src);
+          $("#qrcode").show();
+          $("#loading").hide();
+        });
+
+        socket.on("succeed", function (src) {
+          $("#loading").text(
+            "Autentikasi Berhasil!\nKirim ulang pesan anda..."
+          );
+          $("#qrcode").hide();
+          $("#loading").show();
+        });
+
+        socket.on("failed", function (src) {
+          $("#loading").text("Generate QR-Code");
+          $("#qrcode").hide();
+          $("#loading").show();
+        });
+
+        // socket.on("success", function (data) {
+        //   $("#qrcode").hide();
+        //   $("#loading").text(data);
+        // });
+
+        socket.on("disconnected", () => {
+          socket.destroy();
+        });
+      });
+    </script>
+  </body>
+</html>
